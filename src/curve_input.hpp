@@ -8,7 +8,7 @@ class ImageDrawer{
     ImageDrawer();
     void startDrawing()
     {
-
+        
     }
     void endDrawing() // ends the drawing and saves the points in a file
     {
@@ -17,10 +17,10 @@ class ImageDrawer{
     void insertPoint(Vector2D point){
 
     }
-    vector<Vector2D> loadDrawing(int id){
+    vector<Vector2D> loadDrawing(string path){
 
     }
-    vector<pair<int, string>> getDrawings() //returns the currently saved drawings
+    vector<string> getDrawings() //returns the currently saved drawings
     {
 
     }
