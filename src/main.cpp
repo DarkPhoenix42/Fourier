@@ -1,16 +1,17 @@
 #include <iostream>
 #include "Vector2D.hpp"
 #include "renderer.hpp"
-#include "utils.hpp"
+#include "sdl_utils.hpp"
+#include "file_dump_utils.hpp"
 #include "fourier.hpp"
 #include "../include/json.hpp"
+#include "../include/argparse.hpp"
 
 using namespace std;
 int width = 800;
 int height = 800;
 Vector2D origin;
 
-int num_freq = 10, sampling_rate = 1000;
 SDL_Window *win;
 SDL_Renderer *renderer;
 SDL_Event event;
@@ -20,6 +21,10 @@ int fps = 60;
 double refresh_delta, fps_delta;
 Uint32 fps_timer;
 Uint32 draw_timer;
+
+//
+double time_period = 5.0;
+int point_buf_len = 100, num_freq = 10, sampling_rate = 1000;
 
 void handle_events()
 {
@@ -67,6 +72,7 @@ void load_args()
     sampling_rate = config["sampling_rate"];
     refresh_delta = 1000.0 / refresh_rate;
     fps_delta = 1000.0 / fps;
+    point_buf_len = 0.25 * time_period * fps;
 }
 int main()
 {
@@ -76,12 +82,12 @@ int main()
     int num_points = 1000;
     for (int i = 0; i < num_points; i++)
     {
-        double x = 250 + 200 * cos(2 * M_PI * i / num_points);
-        double y = 100 + 100 * sin(2 * M_PI * i / num_points);
+        double x = 250 + 300 * cos(2 * M_PI * i / num_points);
+        double y = 100 + 250 * sin(2 * M_PI * i / num_points);
         points.push_back(Vector2D(x, y));
     }
     vector<Vector2D> vecs = fourier_series(points, num_freq, sampling_rate);
-    FourierRenderer fourier_renderer(renderer, &vecs, origin, fps, 5, 150);
+    FourierRenderer fourier_renderer(renderer, &vecs, origin, fps, time_period, point_buf_len);
     draw_timer = SDL_GetTicks();
     fps_timer = SDL_GetTicks();
     while (true)

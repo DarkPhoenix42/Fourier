@@ -1,5 +1,4 @@
 #include "Vector2D.hpp"
-#include "utils.hpp"
 #include <vector>
 #include <math.h>
 
