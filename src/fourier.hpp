@@ -6,24 +6,23 @@
 using namespace std;
 
 /**
- * @param numFrequenciees if this is k then the return value will have size 2*k+1
- * @param samplingRate the dt in the integration will be 1/samplingRate
+ * @param num_frequencies if this is k then the return value will have size 2*k+1
+ * @param sampling_rate the dt in the integration will be 1/sampling_rate
  */
-vector<Vector2D> fourier_series(vector<Vector2D> points, int numFrequencies, int samplingRate)
+vector<Vector2D> fourier_series(vector<Vector2D> points, int num_frequencies, int sampling_rate)
 {
     vector<Vector2D> result;
-    double actualTime;
-    int index;
-    double angle, dt = 1.0 / samplingRate;
-    for (int k = -numFrequencies; k <= numFrequencies; k++)
+    int idx;
+    double actual_time, angle, dt = 1.0 / sampling_rate;
+    for (int k = -num_frequencies; k <= num_frequencies; k++)
     {
         Vector2D sum = Vector2D(0, 0);
-        for (int t = 0; t <= samplingRate; t++)
+        for (int t = 0; t <= sampling_rate; t++)
         {
-            actualTime = ((double)t) / samplingRate;
-            index = actualTime * points.size();
-            angle = -2 * M_PI * k * actualTime;
-            sum += points[index].rotate(angle) * dt;
+            actual_time = ((double)t) / sampling_rate;
+            idx = actual_time * points.size();
+            angle = -2 * M_PI * k * actual_time;
+            sum += points[idx].rotate(angle) * dt;
         }
         result.push_back(sum);
     }
