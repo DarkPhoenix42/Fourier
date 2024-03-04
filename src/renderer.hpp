@@ -41,10 +41,15 @@ public:
         // Drawing the vectors
         SDL_SetRenderDrawColor(renderer, WHITE.r, WHITE.g, WHITE.b, WHITE.b);
         Vector2D tip(origin);
-        for (int i = 0; i < vecs->size(); i++)
+        int N = (vecs->size() - 1) / 2;
+        draw_vector(renderer, origin, (*vecs)[N]);
+        tip += (*vecs)[N];
+        for (int i = 1; i <= N; i++)
         {
-            draw_vector(renderer, tip, (*vecs)[i]);
-            tip += (*vecs)[i];
+            draw_vector(renderer, tip, (*vecs)[N + i]);
+            tip += (*vecs)[N + i];
+            draw_vector(renderer, tip, (*vecs)[N - i]);
+            tip += (*vecs)[N - i];
         }
 
         points.push_back(tip);
