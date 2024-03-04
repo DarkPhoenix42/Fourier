@@ -20,7 +20,7 @@ void draw_curve(SDL_Renderer *renderer, const vector<Vector2D> &points, SDL_Colo
 {
     SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
     // Drawing the points traced
-    for (int i = 0; i < points.size() - 1; i++)
+    for (int i = 0; i < (int)points.size() - 1; i++)
     {
         int alpha = min_alpha + (max_alpha - min_alpha) * (float)i / points.size();
         SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, alpha);
@@ -39,7 +39,16 @@ void inline present_screen(SDL_Renderer *renderer)
 {
     SDL_RenderPresent(renderer);
 }
-
+void handle_quit(SDL_Event &event)
+{
+    while (SDL_PollEvent(&event))
+    {
+        if (event.type == SDL_QUIT)
+        {
+            exit(0);
+        }
+    }
+}
 void InitSDL(SDL_Window *&win, SDL_Renderer *&renderer, int width, int height)
 {
     // Initialize SDL2

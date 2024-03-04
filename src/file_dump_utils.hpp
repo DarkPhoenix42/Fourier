@@ -5,16 +5,16 @@
 
 using namespace std;
 template <class T>
-bool write_curve_to_file(const vector<T> &points, const string &filename)
+bool write_curve_to_file(const string &filename, const vector<T> &vecs)
 {
     ofstream out_file;
     out_file.open(filename);
     if (!out_file)
     {
-        cerr << "An error occured while trying to create" << filename << endl;
+        cerr << "An error occured while trying to create " << filename << endl;
         return false;
     }
-    out_file.write((char *)&points[0], points.size() * sizeof(T));
+    out_file.write((char *)&vecs[0], vecs.size() * sizeof(T));
     out_file.close();
     return true;
 }
@@ -26,7 +26,7 @@ vector<T> *load_curve_from_file(const string &filename, vector<T> *vecs)
     in_file.open(filename);
     if (!in_file)
     {
-        cerr << "An error occured while trying to read" << filename << endl;
+        cerr << "An error occured while trying to read " << filename << endl;
         return nullptr;
     }
     while (in_file)
