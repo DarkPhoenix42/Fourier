@@ -4,5 +4,5 @@
     "fps": 120,
     "refresh_rate": 60,
     "sampling_rate": 10000,
-    "num_frequencies": 100
+    "num_frequencies": 50
 }

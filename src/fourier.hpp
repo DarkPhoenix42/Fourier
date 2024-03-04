@@ -20,6 +20,14 @@ vector<Vector2D> fourier_series(vector<Vector2D> points, int num_frequencies, in
         {
             actual_time = ((double)t) / sampling_rate;
             idx = actual_time * points.size();
+            if (idx < 0)
+            {
+                idx = 0;
+            }
+            else if (idx >= points.size())
+            {
+                idx = points.size() - 1;
+            }
             angle = -2 * M_PI * k * actual_time;
             sum += points[idx].rotate(angle) * dt;
         }

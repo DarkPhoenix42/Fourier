@@ -27,6 +27,7 @@ double time_period = 5.0;
 int point_buf_len = 100, num_freq = 10, sampling_rate = 1000;
 
 string filename = "../curves/curve.bin";
+bool to_render = false;
 
 void update(FourierRenderer &fourier_renderer)
 {
@@ -93,7 +94,10 @@ void parse_args(int argc, char *argv[])
     if (parser.is_used("--input"))
         filename = parser.get<string>("--input");
     else if (parser.is_used("--render"))
+    {
+        to_render = true;
         filename = parser.get<string>("--render");
+    }
     else
     {
         cerr << "One of -r or -i flags must be used!" << endl;
@@ -177,12 +181,18 @@ void take_input()
 int main(int argc, char *argv[])
 {
     load_params();
-    // parse_args(argc, argv);
+    parse_args(argc, argv);
     InitSDL(win, renderer, width, height);
     fps_timer = SDL_GetTicks();
     draw_timer = SDL_GetTicks();
-    // take_input();
-    vector<Vector2D> vecs;
-    load_curve_from_file(filename, &vecs);
-    render(vecs);
+    if (to_render)
+    {
+        vector<Vector2D> vecs;
+        load_curve_from_file(filename, &vecs);
+        render(vecs);
+    }
+    else
+    {
+        take_input();
+    }
 }

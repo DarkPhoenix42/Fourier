@@ -47,6 +47,12 @@ public:
     {
         return Vector2D(x / s, y / s);
     }
+    Vector2D operator/=(const double &s)
+    {
+        this->x /= s;
+        this->y /= s;
+        return *this;
+    }
     double dot(const Vector2D &v)
     {
         return x * v.x + y * v.y;
