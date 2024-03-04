@@ -29,7 +29,7 @@ public:
         this->y += v.y;
         return *this;
     }
-    Vector2D operator-(const Vector2D &v)
+    Vector2D operator-(const Vector2D &v) const
     {
         return Vector2D(x - v.x, y - v.y);
     }
