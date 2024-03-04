@@ -61,7 +61,7 @@ bool write_curve_to_file(const vector<Vector2D> &points, const string &filename)
     return true;
 }
 
-vector<Vector2D> *load_curve_from_file(const string &filename)
+vector<Vector2D> *load_curve_from_file(const string &filename, vector<Vector2D> *vecs)
 {
     ifstream in_file;
     in_file.open(filename);
@@ -70,7 +70,6 @@ vector<Vector2D> *load_curve_from_file(const string &filename)
         cerr << "An error occured while trying to read" << filename << endl;
         return nullptr;
     }
-    vector<Vector2D> *vecs = new vector<Vector2D>();
     while (in_file)
     {
         Vector2D current;
