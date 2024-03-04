@@ -12,12 +12,18 @@ using namespace std;
 vector<Vector2D> fourier_series(vector<Vector2D> points, int numFrequencies, int samplingRate)
 {
     vector<Vector2D> result;
+    double actualTime;
+    int index;
+    double angle, dt = 1.0 / samplingRate;
     for (int k = -numFrequencies; k <= numFrequencies; k++)
     {
         Vector2D sum = Vector2D(0, 0);
         for (int t = 0; t <= samplingRate; t++)
         {
-            sum += (points[(int)((points.size()) * (((double)t) / samplingRate))].rotate(-2 * M_PI * k * t / samplingRate)) * ();
+            actualTime = ((double)t) / samplingRate;
+            index = actualTime * points.size();
+            angle = -2 * M_PI * k * actualTime;
+            sum += points[index].rotate(angle) * dt;
         }
         result.push_back(sum);
     }
