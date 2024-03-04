@@ -60,10 +60,11 @@ void load_params()
 
     num_freq = config["num_frequencies"];
     sampling_rate = config["sampling_rate"];
+    time_period = config["time_period"];
 
     refresh_delta = 1000.0 / refresh_rate;
     fps_delta = 1000.0 / fps;
-    point_buf_len = 0.25 * time_period * fps;
+    point_buf_len = ((double)config["point_buf_multiplier"]) * fps * time_period;
 }
 
 void parse_args(int argc, char *argv[])
