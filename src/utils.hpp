@@ -33,6 +33,10 @@ void clear_screen(SDL_Renderer *renderer)
     SDL_SetRenderDrawColor(renderer, BLACK.r, BLACK.g, BLACK.b, BLACK.a);
     SDL_RenderClear(renderer);
 }
+void inline present_screen(SDL_Renderer *renderer)
+{
+    SDL_RenderPresent(renderer);
+}
 
 void InitSDL(SDL_Window *&win, SDL_Renderer *&renderer, int width, int height)
 {
