@@ -13,9 +13,20 @@ public:
         this->x = x;
         this->y = y;
     }
+    Vector2D(const Vector2D &v)
+    {
+        this->x = v.x;
+        this->y = v.y;
+    }
     Vector2D operator+(const Vector2D &v)
     {
         return Vector2D(x + v.x, y + v.y);
+    }
+    Vector2D operator+=(const Vector2D &v)
+    {
+        this->x += v.x;
+        this->y += v.y;
+        return *this;
     }
     Vector2D operator-(const Vector2D &v)
     {
