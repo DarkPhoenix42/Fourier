@@ -1,8 +1,8 @@
 {
     "width": 1000,
     "height": 1000,
-    "fps": 120,
+    "fps": 240,
     "refresh_rate": 60,
     "sampling_rate": 10000,
-    "num_frequencies": 50
+    "num_frequencies": 1000
 }

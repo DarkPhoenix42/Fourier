@@ -106,7 +106,7 @@ void parse_args(int argc, char *argv[])
 }
 void render(vector<Vector2D> &vecs)
 {
-    FourierRenderer fourier_renderer(renderer, &vecs, origin, fps, time_period, 10000);
+    FourierRenderer fourier_renderer(renderer, &vecs, origin, fps, time_period, point_buf_len);
     draw_timer = SDL_GetTicks();
     fps_timer = SDL_GetTicks();
     while (true)
