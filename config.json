@@ -3,8 +3,8 @@
     "height": 1000,
     "fps": 480,
     "refresh_rate": 60,
-    "sampling_rate": 100000,
-    "num_frequencies": 1000,
+    "sampling_rate": 10000,
+    "num_frequencies": 100,
     "point_buf_multiplier": 0.15,
-    "time_period": 10.0
+    "time_period": 5.0
 }

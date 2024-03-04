@@ -160,8 +160,7 @@ void take_input()
                     p -= origin;
                 }
                 cout << "Points: " << points.size() << endl;
-                vector<Vector2D> vecs = fourier_series(points, num_freq, sampling_rate);
-                write_curve_to_file(filename, vecs);
+                write_curve_to_file(filename, points);
                 exit(0);
             }
             else if (event.type == SDL_MOUSEBUTTONDOWN)
@@ -188,8 +187,9 @@ int main(int argc, char *argv[])
     draw_timer = SDL_GetTicks();
     if (to_render)
     {
-        vector<Vector2D> vecs;
-        load_curve_from_file(filename, &vecs);
+        vector<Vector2D> points;
+        load_curve_from_file(filename, &points);
+        vector<Vector2D> vecs = fourier_series(points, num_freq, sampling_rate);
         render(vecs);
     }
     else
