@@ -7,31 +7,34 @@
 using namespace std;
 
 // Constants
-int WIDTH = 800;
-int HEIGHT = 800;
+int WIDTH = 1000;
+int HEIGHT = 1000;
 
 // SDL Stuff
 SDL_Renderer *renderer = nullptr;
 SDL_Window *win = nullptr;
 SDL_Event event;
+
+// Colors
 SDL_Color BLACK = {0, 0, 0, 255};
 SDL_Color WHITE = {255, 255, 255, 255};
 SDL_Color YELLOW = {255, 255, 0, 255};
+int MIN_ALPHA = 50;
+int MAX_ALPHA = 255;
 
 // Global variables
 Vector2D origin(WIDTH / 2, HEIGHT / 2);
-vector<Vector2D> vecs = {Vector2D(200, 0), Vector2D(0, 0), Vector2D(0, 200)};
-int point_buf_size = 100;
-SDL_Point *points = new SDL_Point[point_buf_size];
-int point_buf_idx = 0;
+vector<Vector2D> vecs = {Vector2D(50, 50), Vector2D(200, 0), Vector2D(0, 0), Vector2D(0, 200), Vector2D(100, 100)};
+int point_buf_size = vecs.size() * 50;
+vector<Vector2D> points;
 
 // Timing
 float TIME_PERIOD = 4;
-int FPS = 120;
-
+int fps_counter = 0;
+int REFRESH_RATE = 60;
+int FPS = 240;
 Uint32 fps_timer;
-double desired_delta_time = 1000 / FPS;
-double delta_time = 0;
+Uint32 draw_timer;
 
 void draw_vector(const Vector2D &vec1, const Vector2D &vec2)
 {
@@ -53,16 +56,20 @@ void draw_screen()
         tip += vecs[i];
     }
 
+    points.push_back(tip);
+    if (points.size() > point_buf_size)
+    {
+        points.erase(points.begin());
+    }
+
+    SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
     // Drawing the points traced
-    points[point_buf_idx] = {(int)(tip.x), (int)(tip.y)};
-    point_buf_idx++;
-
-    if (point_buf_idx == point_buf_size)
-        point_buf_idx = 0;
-
-    SDL_SetRenderDrawColor(renderer, YELLOW.r, YELLOW.g, YELLOW.b, YELLOW.a);
-    SDL_RenderDrawPoints(renderer, points, point_buf_size);
-
+    for (int i = 0; i < points.size() - 1; i++)
+    {
+        int alpha = MIN_ALPHA + (MAX_ALPHA - MIN_ALPHA) * (float)i / points.size();
+        SDL_SetRenderDrawColor(renderer, YELLOW.r, YELLOW.g, YELLOW.b, alpha);
+        draw_vector(points[i], points[i + 1] - points[i]);
+    }
     // Presenting the screen
     SDL_RenderPresent(renderer);
 }
@@ -97,16 +104,21 @@ void update()
 int main(int argc, char *argv[])
 {
     InitSDL();
+    draw_timer = SDL_GetTicks();
+    fps_timer = SDL_GetTicks();
     while (true)
     {
-        fps_timer = SDL_GetTicks();
         handle_events();
-        draw_screen();
-        update();
 
-        // Code to restrict FPS to desired FPS
-        delta_time = (SDL_GetTicks() - fps_timer);
-        if (delta_time < desired_delta_time)
-            SDL_Delay((desired_delta_time - delta_time));
+        if (SDL_GetTicks() - draw_timer > 1000.0 / REFRESH_RATE)
+        {
+            draw_screen();
+            draw_timer = SDL_GetTicks();
+        }
+        if (SDL_GetTicks() - fps_timer > 1000.0 / FPS)
+        {
+            fps_timer = SDL_GetTicks();
+            update();
+        }
     }
 }
