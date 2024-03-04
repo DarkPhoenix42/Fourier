@@ -1,3 +1,4 @@
+#pragma once
 #include <iostream>
 #include "utils.hpp"
 
@@ -16,7 +17,7 @@ private:
 
 public:
     FourierRenderer() = default;
-    FourierRenderer(SDL_Renderer *renderer, vector<Vector2D> *vecs, Vector2D origin, int fps, double time_period, int point_buf_size)
+    FourierRenderer(SDL_Renderer *renderer, vector<Vector2D> *vecs, const Vector2D &origin, const int fps, const double time_period, const int point_buf_size)
     {
         this->renderer = renderer;
         this->vecs = vecs;
