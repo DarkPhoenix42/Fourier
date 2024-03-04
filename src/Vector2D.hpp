@@ -51,4 +51,7 @@ public:
         this->x = this->x * cos(angle) + this->y * sin(angle);
         this->y = -back_up_x * sin(angle) + this->y * cos(angle);
     }
+    Vector2D rotate(const double angle){
+        return Vector2D(x*cos(angle) + y*sin(angle), -x*sin(angle) + y*cos(angle));
+    }
 };
