@@ -40,7 +40,8 @@ public:
         this->fps = fps;
         this->time_period = time_period;
         this->point_buf_size = point_buf_size;
-        this->origin = origin;
+        this->origin.x = origin.x;
+        this->origin.y = origin.y;
     }
 
     /**
@@ -49,7 +50,7 @@ public:
     void update()
     {
         int N = (vecs->size() - 1) / 2;
-        for (int i = 0; i < vecs->size(); i++)
+        for (int i = 0; i < (int)vecs->size(); i++)
         {
             int k = i - N;
             (*vecs)[i].rotate_ip(k * 2 * M_PI / (fps * time_period));
@@ -75,10 +76,9 @@ public:
         }
 
         points.push_back(tip);
-        if (points.size() > point_buf_size)
-        {
+        if ((int)points.size() > point_buf_size)
             points.erase(points.begin());
-        }
+
         draw_curve(renderer, points, YELLOW, 100, 255);
     }
 };

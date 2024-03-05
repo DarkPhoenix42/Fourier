@@ -25,7 +25,7 @@ vector<Vector2D> fourier_series(vector<Vector2D> points, int num_frequencies, in
         {
             actual_time = ((double)t) / sampling_rate;
             int idx = actual_time * points.size();
-            if (idx >= points.size())
+            if (idx >= (int)points.size())
                 idx = points.size() - 1;
 
             angle = -2 * M_PI * k * actual_time;
