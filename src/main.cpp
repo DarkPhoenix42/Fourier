@@ -1,3 +1,8 @@
+/**
+ * @file main.cpp
+ * @brief This file contains the main function and supporting functions for the Fourier Series Visualizer program.
+ */
+
 #include <iostream>
 #include "Vector2D.hpp"
 #include "renderer.hpp"
@@ -9,9 +14,8 @@
 
 using namespace std;
 
-int width = 800;
-int height = 800;
-Vector2D origin;
+int width, height;
+Vector2D origin; /**< The origin point of the coordinate system. */
 
 SDL_Window *win;
 SDL_Renderer *renderer;
@@ -24,21 +28,14 @@ Uint32 fps_timer;
 Uint32 draw_timer;
 
 double time_period = 5.0;
-int point_buf_len = 100, num_freq = 10, sampling_rate = 1000;
+int point_buf_len, num_freq, sampling_rate;
 
-string filename = "../curves/curve.bin";
-bool to_render = false;
+string filename;
+bool to_render = false; /**< Flag indicating whether to render the curve or take input from the user. */
 
-void update(FourierRenderer &fourier_renderer)
-{
-    fourier_renderer.update();
-}
-void draw_screen(FourierRenderer &fourier_renderer)
-{
-    clear_screen(renderer);
-    fourier_renderer.draw();
-    SDL_RenderPresent(renderer);
-}
+/**
+ * @brief Loads the parameters from the configuration file config.json.
+ */
 void load_params()
 {
     // Configuration
@@ -67,20 +64,24 @@ void load_params()
     point_buf_len = ((double)config["point_buf_multiplier"]) * fps * time_period;
 }
 
+/**
+ * @brief Parses the command-line arguments.
+ */
 void parse_args(int argc, char *argv[])
 {
+    // TODO : Add description
     argparse::ArgumentParser parser("Fourier Series Visualizer");
-    parser.add_description("A program to simulate Reaction Diffusion using the Gray-Scott model. Give initial parameters as arguments or edit the config.json file.");
+    parser.add_description("");
 
     parser.add_argument("--input", "-i")
         .default_value("../curves/curve.bin")
         .nargs(1)
-        .help("Set the width of the simulation.");
+        .help("The file to write the curve to after taking input.");
 
     parser.add_argument("--render", "-r")
         .default_value("../curves/curve.bin")
         .nargs(1)
-        .help("Set the height of the simulation.");
+        .help("The file to load the curve to render.");
 
     try
     {
@@ -92,6 +93,7 @@ void parse_args(int argc, char *argv[])
         cout << parser;
         exit(0);
     }
+
     if (parser.is_used("--input"))
         filename = parser.get<string>("--input");
     else if (parser.is_used("--render"))
@@ -105,11 +107,15 @@ void parse_args(int argc, char *argv[])
         exit(0);
     }
 }
+
+/**
+ * @brief Renders the Fourier series.
+ *
+ * @param vecs The vector of fourier series coefficients for the curve.
+ */
 void render(vector<Vector2D> &vecs)
 {
     FourierRenderer fourier_renderer(renderer, &vecs, origin, fps, time_period, point_buf_len);
-    draw_timer = SDL_GetTicks();
-    fps_timer = SDL_GetTicks();
     while (true)
     {
         handle_quit(event);
@@ -117,17 +123,20 @@ void render(vector<Vector2D> &vecs)
         {
             clear_screen(renderer);
             fourier_renderer.draw();
-            present_screen(renderer);
+            SDL_RenderPresent(renderer);
             draw_timer = SDL_GetTicks();
         }
         if (SDL_GetTicks() - fps_timer > fps_delta)
         {
-            update(fourier_renderer);
+            fourier_renderer.update();
             fps_timer = SDL_GetTicks();
         }
     }
 }
 
+/**
+ * @brief Takes input from the user to create the curve.
+ */
 void take_input()
 {
     vector<Vector2D> points;
@@ -139,34 +148,30 @@ void take_input()
         {
             clear_screen(renderer);
             draw_curve(renderer, points, YELLOW);
-            present_screen(renderer);
+            SDL_RenderPresent(renderer);
             draw_timer = SDL_GetTicks();
         }
         if (SDL_GetTicks() - fps_timer < fps_delta)
-        {
             continue;
-        }
+
         fps_timer = SDL_GetTicks();
         while (SDL_PollEvent(&event))
         {
             if (event.type == SDL_QUIT)
-            {
                 exit(0);
-            }
+
             else if (event.type == SDL_MOUSEBUTTONUP)
             {
                 for (auto &p : points)
-                {
                     p -= origin;
-                }
-                cout << "Points: " << points.size() << endl;
+
+                cout << points.size() << " from curve were sampled." << endl;
                 write_curve_to_file(filename, points);
                 exit(0);
             }
             else if (event.type == SDL_MOUSEBUTTONDOWN)
-            {
                 is_mouse_pressed = true;
-            }
+
             else if (event.type == SDL_MOUSEMOTION)
             {
                 mouse.x = event.motion.x;
@@ -193,7 +198,5 @@ int main(int argc, char *argv[])
         render(vecs);
     }
     else
-    {
         take_input();
-    }
 }
