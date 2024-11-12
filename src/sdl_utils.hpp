@@ -1,5 +1,4 @@
 #pragma once
-
 #include <vector>
 #include <SDL2/SDL.h>
 #include "Vector2D.hpp"
@@ -10,6 +9,8 @@ using namespace std;
 SDL_Color BLACK = {0, 0, 0, 255};
 SDL_Color WHITE = {255, 255, 255, 255};
 SDL_Color YELLOW = {255, 255, 0, 255};
+SDL_Color RED = {255, 0, 0, 255};
+
 
 /**
  * @brief Draws a vector using the SDL renderer.

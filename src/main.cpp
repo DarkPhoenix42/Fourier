@@ -9,8 +9,8 @@
 #include "sdl_utils.hpp"
 #include "file_dump_utils.hpp"
 #include "fourier.hpp"
-#include "../include/json.hpp"
-#include "../include/argparse.hpp"
+#include "json.hpp"
+#include "argparse.hpp"
 
 using namespace std;
 
@@ -147,7 +147,7 @@ void take_input()
         if (SDL_GetTicks() - draw_timer > refresh_delta)
         {
             clear_screen(renderer);
-            draw_curve(renderer, points, YELLOW);
+            draw_curve(renderer, points, RED);
             SDL_RenderPresent(renderer);
             draw_timer = SDL_GetTicks();
         }
@@ -186,8 +186,11 @@ void take_input()
 int main(int argc, char *argv[])
 {
     load_params();
+    cout << "Loaded parameters from config.json" << endl;
     parse_args(argc, argv);
+    cout << "Parsed command-line arguments" << endl;
     InitSDL(win, renderer, width, height);
+
     fps_timer = SDL_GetTicks();
     draw_timer = SDL_GetTicks();
     if (to_render)

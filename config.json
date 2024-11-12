@@ -1,10 +1,10 @@
 {
     "width": 1000,
     "height": 1000,
-    "fps": 120,
+    "fps": 480,
     "refresh_rate": 60,
-    "sampling_rate": 10000,
-    "num_frequencies": 100,
+    "sampling_rate": 1000,
+    "num_frequencies": 150,
     "time_period": 10.0,
     "point_buf_multiplier": 0.15
 }

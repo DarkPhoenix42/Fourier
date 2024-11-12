@@ -79,6 +79,6 @@ public:
         if ((int)points.size() > point_buf_size)
             points.erase(points.begin());
 
-        draw_curve(renderer, points, YELLOW, 100, 255);
+        draw_curve(renderer, points, RED, 100, 255);
     }
 };

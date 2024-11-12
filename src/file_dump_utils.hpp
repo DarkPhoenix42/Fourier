@@ -18,7 +18,7 @@ using namespace std;
  *
  * @param filename The name of the file to write to.
  * @param vecs The vector of elements to write to the file.
- * @return True if the writing was successful, false otherwise.
+ * @return true if the writing was successful, false otherwise.
  */
 template <class T>
 bool write_curve_to_file(const string &filename, const vector<T> &vecs)
@@ -52,7 +52,7 @@ bool load_curve_from_file(const string &filename, vector<T> *vecs)
     in_file.open(filename);
     if (!in_file)
     {
-        cerr << "An error occured while trying to read " << filename << endl;
+        cerr << "An error occured while trying to read " << filename << " !" << endl;
         return false;
     }
     while (in_file)
